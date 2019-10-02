@@ -8,3 +8,12 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r problem1}
+
+library(tidyverse)
+library(readxl)
+
+mr_trash = read_excel("./data/Trash-Wheel-Collection-Totals-8-6-19.xlsx")
+
+```
