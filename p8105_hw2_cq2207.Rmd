@@ -14,6 +14,10 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(readxl)
 
-mr_trash = read_excel("./data/Trash-Wheel-Collection-Totals-8-6-19.xlsx")
+mr_trash = read_excel(path = "./data/Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = 1, col_names=TRUE) %>%
+  janitor::clean_names() %>%
+  drop_na(dumpster) %>%
+  mutate(sports_balls =  as.integer(round(sports_balls, digits=0))) 
+
 
 ```
