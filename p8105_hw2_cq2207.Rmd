@@ -100,3 +100,17 @@ The dataset `join_complete` contains `r nrow(join_complete)` observations and `r
 It combines three datasets. The first is `pols`, which describes the number of political servants (governors, senators, and congresspeople) belonging to either the republican or democratic party; as well as the political affiliation of the president, in a given year and month. The data set `snp`, describes the closing value of the SNP on the first weekday of that month and year. And, finally, the `unemployment` dataset describes the unemployment rate in a given year and month.
 The range of years in the dataset go from `r min(pull(join_complete,year))` to `r max(pull(join_complete,year))`. 
 
+```{r problem3}
+
+baby_names = 
+    read_csv("./data/Popular_Baby_Names.csv") %>%
+    janitor::clean_names() %>%
+    mutate_all(tolower) %>%   
+    mutate(
+    ethnicity = replace(ethnicity, ethnicity == "asian and paci", "asian and pacific islander"),
+    ethnicity = replace(ethnicity, ethnicity == "black non hisp", "black non hispanic"),
+    ethnicity = replace(ethnicity, ethnicity == "white non hisp", "white non hispanic")) %>% 
+  distinct()
+
+
+```
