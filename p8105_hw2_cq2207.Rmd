@@ -136,5 +136,17 @@ male_popular_table <- spread(male_popular,year_of_birth,childs_first_name) %>%
 knitr::kable() %>% 
     print()
 
+#make scatterplot for names for male, white non-hispanic, 2016
 
+library(ggplot2)
+
+  filter(baby_names, year_of_birth=='2016', gender=="male", ethnicity=="white non hispanic") %>%
+  mutate(rank = as.numeric(rank), count = as.numeric(count)) %>%
+  ggplot(aes(x=rank, y=count))+
+  geom_text(aes(label = childs_first_name), check_overlap = TRUE)+
+  labs(
+    title="Count of Baby Names by Rank for White non-Hispanic Males Born in 2016",
+    x="Rank of Name",
+    y="Count of Name"
+  )
 ```
