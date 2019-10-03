@@ -53,6 +53,8 @@ The total precipitation in 2018 was `r sum(pull(p_combined,total_2018))`.
 
 ```{r problem2}
 
+#pols-month.csv data
+
 pols = 
     read_csv("./data/pols-month.csv") %>%
     janitor::clean_names() %>%
@@ -62,5 +64,18 @@ pols =
     select(-prez_gop, -prez_dem,-day)
 
 head(pols)
+
+#snp.csv
+
+snp = 
+    read_csv("./data/snp.csv") %>%
+    janitor::clean_names() %>%
+    separate(date, into = c("month", "day", "year"), sep = "/") %>%
+    mutate(month = month.name[as.numeric(month)]) %>%
+    select(-day) %>%
+    select(year, month, close)
+
+head(snp)
+
 ```
 
