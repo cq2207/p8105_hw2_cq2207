@@ -102,6 +102,8 @@ The range of years in the dataset go from `r min(pull(join_complete,year))` to `
 
 ```{r problem3}
 
+#clean dataset
+
 baby_names = 
     read_csv("./data/Popular_Baby_Names.csv") %>%
     janitor::clean_names() %>%
@@ -110,7 +112,19 @@ baby_names =
     ethnicity = replace(ethnicity, ethnicity == "asian and paci", "asian and pacific islander"),
     ethnicity = replace(ethnicity, ethnicity == "black non hisp", "black non hispanic"),
     ethnicity = replace(ethnicity, ethnicity == "white non hisp", "white non hispanic")) %>% 
-  distinct()
+  distinct() 
+
+
+#make Olivia table
+
+olivia_rank = 
+filter(baby_names, childs_first_name == "olivia") %>% 
+  select(-gender, -childs_first_name, -count) 
+
+library(knitr)
+olivia_table <- spread(olivia_rank,year_of_birth,rank) %>% 
+knitr::kable() %>% 
+    print()
 
 
 ```
