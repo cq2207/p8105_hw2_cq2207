@@ -126,5 +126,15 @@ olivia_table <- spread(olivia_rank,year_of_birth,rank) %>%
 knitr::kable() %>% 
     print()
 
+#make similar table for popular male names
+
+male_popular = 
+filter(baby_names, gender == "male", rank == '1') %>% 
+  select(-gender, -rank, -count) 
+
+male_popular_table <- spread(male_popular,year_of_birth,childs_first_name) %>% 
+knitr::kable() %>% 
+    print()
+
 
 ```
