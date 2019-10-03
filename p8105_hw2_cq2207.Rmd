@@ -11,13 +11,47 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r problem1}
 
+
 library(tidyverse)
 library(readxl)
+
+#Mr. Trash Wheel
 
 mr_trash = read_excel(path = "./data/Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = 1, col_names=TRUE) %>%
   janitor::clean_names() %>%
   drop_na(dumpster) %>%
-  mutate(sports_balls =  as.integer(round(sports_balls, digits=0))) 
+  mutate(sports_balls =  as.integer(round(sports_balls, digits=0))) %>%
+  select(-x15, -x16, -x17)
 
+#Precipitation 2017
+
+p_2017 = read_excel(path = "./data/Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = 6, col_names=TRUE, skip=1) %>%
+  janitor::clean_names() %>%
+  drop_na(month) %>%
+  mutate(year=2017)
+  
+#Precipitation 2018
+
+p_2018 = read_excel(path = "./data/Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = 5, col_names=TRUE, skip=1) %>%
+  janitor::clean_names() %>%
+  drop_na(month) %>%
+  mutate(year=2018)
+
+#combine 2017 and 2018 precipitation data 
+
+p_combined = full_join(p_2017,p_2018, by = "month") %>%
+  mutate(month = month.name) %>%
+  rename(`year_2017` = year.x, `year_2018` = year.y, total_2017 = total.x, total_2018 = total.y) 
+  
+```
+
+#write paragraph about data#
+
+The `mr_trash` dataset contains information on waste collected in dumpsters. It contains `r nrow(mr_trash)` observations, and includes information such as the total weight (`weight_tons`) and volume (`volume_cubic_yards`) collected by each individual dumpster, as well as number of specific items discarded in the dumpsters, such as `glass_bottles`, `grocery_bags`, and `chip_bags`. From the dataset we can see that the median number of sports balls in a dumpster in 2017 was `r median(pull(mr_trash,sports_balls))`.
+The `p_combined` dataset reports monthly precipitation for the years of 2017 and 2018, and contains `r nrow(p_combined)` observations. It includes the `month`, `year`, and `total` precipitation for that month in a given year, in inches. 
+The total precipitation in 2018 was `r sum(pull(p_combined,total_2018))`. 
+
+```{r }
 
 ```
+
