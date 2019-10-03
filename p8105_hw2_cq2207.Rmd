@@ -51,7 +51,16 @@ The `mr_trash` dataset contains information on waste collected in dumpsters. It 
 The `p_combined` dataset reports monthly precipitation for the years of 2017 and 2018, and contains `r nrow(p_combined)` observations. It includes the `month`, `year`, and `total` precipitation for that month in a given year, in inches. 
 The total precipitation in 2018 was `r sum(pull(p_combined,total_2018))`. 
 
-```{r }
+```{r problem2}
 
+pols = 
+    read_csv("./data/pols-month.csv") %>%
+    janitor::clean_names() %>%
+    separate(mon, into = c("year", "month", "day"), sep = "-") %>%
+    mutate(month = month.name[as.numeric(month)]) %>%
+    mutate(prez_all = if_else(prez_gop=="1", "gop", "dem")) %>%
+    select(-prez_gop, -prez_dem,-day)
+
+head(pols)
 ```
 
